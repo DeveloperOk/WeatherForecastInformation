@@ -15,6 +15,15 @@ class WeatherForecastConstants {
 
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 0
 
+        val BaseUrl: String = "https://www.metaweather.com"
+        val PartOfRelativeUrlForLocationSearch: String = "/api/location/search/?lattlong="
+        val LatitudeLongitudeSeparator: String = ","
+
+        val LocationTypeCity = "City"
+
+        val NearCitiesKey = "NearCitiesKey"
+        val SelectedNearCityJsonKey = "SelectedNearCityJsonKey"
+
     }
 
 }

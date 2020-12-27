@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/near_city_border_line"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierForVerticalAlignment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="textViewDistanceLabel,textViewTitleLabel,textViewWoeidLabel,textViewLattLongLabel"/>
+
+
+    <TextView
+        android:id="@+id/textViewDistanceLabel"
+        android:text="@string/near_city_label_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewDistanceLabelPunctuation"
+        android:text="@string/near_city_space_colon_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/barrierForVerticalAlignment"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewDistanceLabel" />
+
+    <TextView
+        android:id="@+id/textViewDistanceValue"
+        android:text="@string/near_city_default_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/textViewDistanceLabelPunctuation"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewDistanceLabel" />
+
+
+    <TextView
+        android:id="@+id/textViewTitleLabel"
+        android:text="@string/near_city_label_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistanceLabel" />
+
+    <TextView
+        android:id="@+id/textViewTitleLabelPunctuation"
+        android:text="@string/near_city_space_colon_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/barrierForVerticalAlignment"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewTitleLabel" />
+
+    <TextView
+        android:id="@+id/textViewTitleValue"
+        android:text="@string/near_city_default_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/textViewTitleLabelPunctuation"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewTitleLabel" />
+
+
+    <TextView
+        android:id="@+id/textViewWoeidLabel"
+        android:text="@string/near_city_label_woeid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitleLabel" />
+
+    <TextView
+        android:id="@+id/textViewWoeidLabelPunctuation"
+        android:text="@string/near_city_space_colon_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/barrierForVerticalAlignment"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewWoeidLabel" />
+
+    <TextView
+        android:id="@+id/textViewWoeidValue"
+        android:text="@string/near_city_default_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/textViewWoeidLabelPunctuation"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewWoeidLabel" />
+
+
+    <TextView
+        android:id="@+id/textViewLattLongLabel"
+        android:text="@string/near_city_label_latt_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWoeidLabel" />
+
+    <TextView
+        android:id="@+id/textViewLattLongLabelPunctuation"
+        android:text="@string/near_city_space_colon_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/barrierForVerticalAlignment"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewLattLongLabel" />
+
+    <TextView
+        android:id="@+id/textViewLattLongValue"
+        android:text="@string/near_city_default_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/textViewLattLongLabelPunctuation"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewLattLongLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

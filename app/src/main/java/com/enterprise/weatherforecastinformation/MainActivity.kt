@@ -5,14 +5,20 @@ import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import com.enterprise.weatherforecastinformation.adapters.weatherforecast.NearLocationAdapter
+import com.enterprise.weatherforecastinformation.controllers.activities.weatherforecast.NearCitiesActivity
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.AppLocationManager
+import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.MetaweatherManager
+import com.enterprise.weatherforecastinformation.models.weatherforecast.NearLocation
+import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
-    private var buttonStart: Button? = null
-    private var textView: TextView? = null
+    private var buttonNearLocations: Button? = null
+    private var buttonNearCities: Button? = null
 
     private var appLocationManager: AppLocationManager? = null
     private var locationListener: LocationListener? = null
@@ -21,10 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonStart = findViewById(R.id.buttonStart)
-        textView = findViewById(R.id.textView)
+        buttonNearLocations = findViewById(R.id.buttonNearLocations)
+        buttonNearCities = findViewById(R.id.buttonNearCities)
 
         appLocationManager = AppLocationManager(this, this)
+
+        setAndRegisterListenerForGPS(this::useObtainedLocationData)
 
         addListeners()
     }
@@ -45,8 +53,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -56,29 +65,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun addListeners() {
         addButtonListeners()
-        addListenerForGPS()
     }
 
     private fun addButtonListeners() {
-        addStartButtonListener()
+
+        addButtonNearestLocationListener()
+        addButtonNearestCitiesListener()
+
     }
 
-    private fun addStartButtonListener() {
+    private fun addButtonNearestLocationListener() {
 
-        buttonStart?.setOnClickListener {
+        buttonNearLocations?.setOnClickListener {
 
-            appLocationManager?.registerListenerForGPS(this@MainActivity)
+            setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearLocations)
 
         }
     }
 
-    private fun addListenerForGPS() {
+    private fun addButtonNearestCitiesListener() {
+
+        buttonNearCities?.setOnClickListener {
+
+            setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearCities)
+
+        }
+    }
+
+    private fun setAndRegisterListenerForGPS(doOnResponse: (location: Location) -> (Unit)) {
 
         // Define a listener that responds to location updates
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 // Called when a new location is found by the network location provider.
-                useObtainedLocationData(location)
+                doOnResponse(location)
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -93,10 +113,60 @@ class MainActivity : AppCompatActivity() {
 
     private fun useObtainedLocationData(location: Location) {
 
-        textView?.setText("Latitude,Longitude: " + location?.latitude + "," + location?.longitude)
-
         appLocationManager?.removeListenerForGPS()
+
+        var metaweatherManager = MetaweatherManager()
+        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
+            this::setAdapterOfRecyclerView)
+
     }
 
+    private fun setAdapterOfRecyclerView(nearLocationsList: Array<NearLocation>): Unit {
+
+        val recyclerViewNearLocations: RecyclerView = findViewById(R.id.recyclerViewNearLocations)
+        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList)
+
+    }
+
+    private fun useObtainedLocationDataOnButtonNearLocations(location: Location) {
+
+        appLocationManager?.removeListenerForGPS()
+
+        var metaweatherManager = MetaweatherManager()
+        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
+            this::setAdapterOfRecyclerViewOnButtonNearLocations)
+
+    }
+
+    private fun setAdapterOfRecyclerViewOnButtonNearLocations(nearLocationsList: Array<NearLocation>): Unit {
+
+        val recyclerViewNearLocations: RecyclerView = findViewById(R.id.recyclerViewNearLocations)
+        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList)
+
+    }
+
+    private fun useObtainedLocationDataOnButtonNearCities(location: Location) {
+
+        appLocationManager?.removeListenerForGPS()
+
+        var metaweatherManager = MetaweatherManager()
+        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
+            this::getNearCitiesAndLaunchNearCitiesActivity)
+
+    }
+
+    private fun getNearCitiesAndLaunchNearCitiesActivity(nearLocationsList: Array<NearLocation>): Unit {
+
+        var metaweatherManager = MetaweatherManager()
+        var nearCitiesList = metaweatherManager.getNearCities(nearLocationsList)
+
+        var gson = Gson()
+        var nearCitiesListJson = gson.toJson(nearCitiesList)
+        val intent = Intent(this, NearCitiesActivity::class.java).apply {
+            putExtra(WeatherForecastConstants.NearCitiesKey, nearCitiesListJson)
+        }
+        startActivity(intent)
+
+    }
 
 }

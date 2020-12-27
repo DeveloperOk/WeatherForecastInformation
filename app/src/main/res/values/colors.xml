@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="appWhite">#FFFFFFFF</color>
+    <color name="appNearCityBorderLine">#00CCFF</color>
+
+    <color name="appNearLocationWhite">#FFFFFFFF</color>
+    <color name="appNearLocationBorderLine">#00CCFF</color>
+
 </resources>

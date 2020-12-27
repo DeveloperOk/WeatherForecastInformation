@@ -2,9 +2,32 @@
 
     <string name="app_name">Weather Forecast Information</string>
 
+    <string name="button_near_locations">NEAR LOCATIONS</string>
+    <string name="button_near_cities">NEAR CITIES</string>
+
     <string name="turn_on_gps_dialog_title">Information</string>
     <string name="turn_on_gps_dialog_message">Location provider is off. Would you like to turn on location provider?</string>
     <string name="turn_on_gps_dialog_positive_button">YES</string>
     <string name="turn_on_gps_dialog_negative_button">NO</string>
+
+    <string name="near_cities_activity_title">Near Cities</string>
+
+
+    <string name="near_city_label_distance">Distance (m)</string>
+    <string name="near_city_label_title">Title</string>
+    <string name="near_city_label_location_type">Location Type</string>
+    <string name="near_city_label_woeid">Where On Earth ID</string>
+    <string name="near_city_label_latt_long">Latitude,Longitude</string>
+    <string name="near_city_space_colon_space">" :  "</string>
+    <string name="near_city_default_value">""</string>
+
+
+    <string name="near_location_label_distance">Distance (m)</string>
+    <string name="near_location_label_title">Title</string>
+    <string name="near_location_label_location_type">Location Type</string>
+    <string name="near_location_label_woeid">Where On Earth ID</string>
+    <string name="near_location_label_latt_long">Latitude,Longitude</string>
+    <string name="near_location_space_colon_space">" :  "</string>
+    <string name="near_location_default_value">""</string>
 
 </resources>
