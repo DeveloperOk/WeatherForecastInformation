@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.enterprise.weatherforecastinformation.adapters.weatherforecast.NearLocationAdapter
 import com.enterprise.weatherforecastinformation.controllers.activities.weatherforecast.NearCitiesActivity
+import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.AppConnectivityManager
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.AppLocationManager
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.MetaweatherManager
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearLocation
@@ -32,7 +33,15 @@ class MainActivity : AppCompatActivity() {
 
         appLocationManager = AppLocationManager(this, this)
 
-        setAndRegisterListenerForGPS(this::useObtainedLocationData)
+        if (AppConnectivityManager.isConnectedToInternet(this) == true) {
+
+            setAndRegisterListenerForGPS(this::useObtainedLocationData)
+
+        } else {
+
+            AppConnectivityManager.showAlertDialogForNoInternetConnection(this)
+
+        }
 
         addListeners()
     }
@@ -55,7 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray) {
+        permissions: Array<String>, grantResults: IntArray
+    ) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -69,25 +79,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun addButtonListeners() {
 
-        addButtonNearestLocationListener()
-        addButtonNearestCitiesListener()
+        addButtonNearLocationsListener()
+        addButtonNearCitiesListener()
 
     }
 
-    private fun addButtonNearestLocationListener() {
+    private fun addButtonNearLocationsListener() {
 
         buttonNearLocations?.setOnClickListener {
 
-            setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearLocations)
+            if (AppConnectivityManager.isConnectedToInternet(this) == true) {
+
+                setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearLocations)
+
+            } else {
+
+                AppConnectivityManager.showAlertDialogForNoInternetConnection(this)
+
+            }
+
 
         }
     }
 
-    private fun addButtonNearestCitiesListener() {
+    private fun addButtonNearCitiesListener() {
 
         buttonNearCities?.setOnClickListener {
 
-            setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearCities)
+            if (AppConnectivityManager.isConnectedToInternet(this) == true) {
+
+                setAndRegisterListenerForGPS(this::useObtainedLocationDataOnButtonNearCities)
+
+            } else {
+
+                AppConnectivityManager.showAlertDialogForNoInternetConnection(this)
+
+            }
 
         }
     }
@@ -116,8 +143,10 @@ class MainActivity : AppCompatActivity() {
         appLocationManager?.removeListenerForGPS()
 
         var metaweatherManager = MetaweatherManager()
-        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
-            this::setAdapterOfRecyclerView)
+        metaweatherManager.getNearLocations(
+            location.latitude, location.longitude, this,
+            this::setAdapterOfRecyclerView
+        )
 
     }
 
@@ -133,8 +162,10 @@ class MainActivity : AppCompatActivity() {
         appLocationManager?.removeListenerForGPS()
 
         var metaweatherManager = MetaweatherManager()
-        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
-            this::setAdapterOfRecyclerViewOnButtonNearLocations)
+        metaweatherManager.getNearLocations(
+            location.latitude, location.longitude, this,
+            this::setAdapterOfRecyclerViewOnButtonNearLocations
+        )
 
     }
 
@@ -150,8 +181,10 @@ class MainActivity : AppCompatActivity() {
         appLocationManager?.removeListenerForGPS()
 
         var metaweatherManager = MetaweatherManager()
-        metaweatherManager.getNearLocations(location.latitude, location.longitude, this,
-            this::getNearCitiesAndLaunchNearCitiesActivity)
+        metaweatherManager.getNearLocations(
+            location.latitude, location.longitude, this,
+            this::getNearCitiesAndLaunchNearCitiesActivity
+        )
 
     }
 
