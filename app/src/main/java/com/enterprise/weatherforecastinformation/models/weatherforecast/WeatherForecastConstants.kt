@@ -18,6 +18,12 @@ class WeatherForecastConstants {
         val BaseUrl: String = "https://www.metaweather.com"
         val PartOfRelativeUrlForLocationSearch: String = "/api/location/search/?lattlong="
         val LatitudeLongitudeSeparator: String = ","
+        val PartOfRelativeUrlForLocationDay: String = "/api/location/"
+        val PunctuationMarkSlash: String = "/"
+        val DateFormatForLocationDay = "yyyy/MM/dd"
+        val FirstDayIndex:  Int = 0
+        val LastDayIndex: Int = 7
+        val IndexOfForecastClosestToCurrentDate = 0
 
         val LocationTypeCity = "City"
 

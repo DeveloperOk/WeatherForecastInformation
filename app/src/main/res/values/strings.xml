@@ -30,7 +30,7 @@
     <string name="near_location_space_colon_space">" :  "</string>
     <string name="near_location_default_value">""</string>
 
-    
+
     <string name="no_internet_dialog_title">Information</string>
     <string name="no_internet_dialog_message">Internet is off. Please, turn on internet.</string>
     <string name="no_internet_dialog_neutral_button">OK</string>
