@@ -1,8 +1,11 @@
 package com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.widget.ImageView
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.enterprise.weatherforecastinformation.models.weatherforecast.MetaweatherWeatherForecastInformation
@@ -111,6 +114,43 @@ class MetaweatherManager {
             append(WeatherForecastConstants.PunctuationMarkSlash)
             append(date)
             append(WeatherForecastConstants.PunctuationMarkSlash)
+        }
+
+        return absoluteUrl
+
+    }
+
+    fun getImage(
+        weatherStateAbbreviation: String, context: Context, maxWidth: Int, maxHeight: Int,
+        doOnResponse: (weatherStateAbbreviation: String, bitmap: Bitmap) -> (Unit)
+    ) {
+
+        val absoluteUrl = generateAbsoluteUrlForGetImage(weatherStateAbbreviation)
+
+        val queue = Volley.newRequestQueue(context)
+
+        val imageRequest = ImageRequest(absoluteUrl,
+            Response.Listener<Bitmap> { response ->
+
+                doOnResponse(weatherStateAbbreviation, response)
+
+            }, maxWidth, maxHeight, ImageView.ScaleType.CENTER, Bitmap.Config.ARGB_8888,
+            Response.ErrorListener { /*Do on error*/ })
+
+        // Add the request to the RequestQueue.
+        queue.add(imageRequest)
+
+    }
+
+    private fun generateAbsoluteUrlForGetImage(
+        weatherStateAbbreviation: String
+    ): String {
+
+        var absoluteUrl = buildString {
+            append(WeatherForecastConstants.BaseUrl)
+            append(WeatherForecastConstants.PartOfRelativeUrlForGettingImage)
+            append(weatherStateAbbreviation)
+            append(WeatherForecastConstants.ImageFileExtension)
         }
 
         return absoluteUrl

@@ -24,11 +24,20 @@ class WeatherForecastConstants {
         val FirstDayIndex:  Int = 0
         val LastDayIndex: Int = 7
         val IndexOfForecastClosestToCurrentDate = 0
+        val PartOfRelativeUrlForGettingImage: String = "/static/img/weather/png/"
+        val ImageFileExtension: String = ".png"
+        val ImageMaxWidth: Int = 300
+        val ImageMaxHeight: Int = 300
 
-        val LocationTypeCity = "City"
+        val LocationTypeCity: String = "City"
 
-        val NearCitiesKey = "NearCitiesKey"
-        val SelectedNearCityJsonKey = "SelectedNearCityJsonKey"
+        val NearCitiesKey: String = "NearCitiesKey"
+        val SelectedNearCityJsonKey: String = "SelectedNearCityJsonKey"
+
+        val CityDetailInputDateFormat: String = "yyyy-MM-dd"
+        val CityDetailOutputDateFormat: String = "EEEE"
+
+        val NumberOfColumnsOfRecyclerViewCityDetail: Int = 2
 
     }
 

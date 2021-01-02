@@ -35,4 +35,13 @@
     <string name="no_internet_dialog_message">Internet is off. Please, turn on internet.</string>
     <string name="no_internet_dialog_neutral_button">OK</string>
 
+
+    <string name="city_detail_default_text">""</string>
+    <string name="city_detail_space">" "</string>
+    <string name="city_detail_temperature">Temp (°C):</string>
+    <string name="city_detail_maximum_temperature">Max Temp (°C):</string>
+    <string name="city_detail_minimum_temperature">Min Temp (°C):</string>
+    <string name="city_detail_wind_speed">Wind Speed (mph):</string>
+    <string name="city_detail_humidity">Humidity (%):</string>
+
 </resources>
