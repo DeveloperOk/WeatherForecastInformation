@@ -5,9 +5,10 @@ import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.enterprise.weatherforecastinformation.R
 import com.enterprise.weatherforecastinformation.adapters.weatherforecast.NearCityAdapter
+import com.enterprise.weatherforecastinformation.models.weatherforecast.MetaweatherLocation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearCity
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
-import com.google.gson.Gson
+
 
 class NearCitiesActivity : AppCompatActivity() {
 
@@ -17,14 +18,41 @@ class NearCitiesActivity : AppCompatActivity() {
 
         setTitle(R.string.near_cities_activity_title)
 
-        var nearCitiesListJson = intent.getStringExtra(WeatherForecastConstants.NearCitiesKey)
-
-        var gson = Gson()
-        var nearCitiesList = gson.fromJson(nearCitiesListJson, Array<NearCity>::class.java)
+        var nearCitiesList = getNearCities()
 
         val recyclerViewNearCities: RecyclerView = findViewById(R.id.recyclerViewNearCities)
         recyclerViewNearCities.adapter = NearCityAdapter(nearCitiesList, this)
 
     }
+
+    private fun getNearCities() : ArrayList<NearCity> {
+
+        var nearCitiesList = ArrayList<NearCity>()
+
+        var nearCitiesListAsMetaweatherLocationList =
+            intent.getParcelableArrayListExtra<MetaweatherLocation>(WeatherForecastConstants.NearCitiesKey)
+
+        if(nearCitiesListAsMetaweatherLocationList != null ) {
+
+            for (nearCityAsMetaweatherLocation in nearCitiesListAsMetaweatherLocationList) {
+
+                var nearCity = NearCity()
+
+                nearCity.distance = nearCityAsMetaweatherLocation.distance
+                nearCity.title = nearCityAsMetaweatherLocation.title
+                nearCity.location_type = nearCityAsMetaweatherLocation.location_type
+                nearCity.woeid = nearCityAsMetaweatherLocation.woeid
+                nearCity.latt_long = nearCityAsMetaweatherLocation.latt_long
+
+                nearCitiesList.add(nearCity)
+
+            }
+
+        }
+
+        return  nearCitiesList
+
+    }
+
 
 }

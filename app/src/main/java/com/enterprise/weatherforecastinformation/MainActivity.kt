@@ -14,7 +14,7 @@ import com.enterprise.weatherforecastinformation.controllers.managers.weatherfor
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.MetaweatherManager
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearLocation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
-import com.google.gson.Gson
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -193,11 +193,9 @@ class MainActivity : AppCompatActivity() {
         var metaweatherManager = MetaweatherManager()
         var nearCitiesList = metaweatherManager.getNearCities(nearLocationsList)
 
-        var gson = Gson()
-        var nearCitiesListJson = gson.toJson(nearCitiesList)
-        val intent = Intent(this, NearCitiesActivity::class.java).apply {
-            putExtra(WeatherForecastConstants.NearCitiesKey, nearCitiesListJson)
-        }
+        val intent = Intent(this, NearCitiesActivity::class.java)
+        intent.putExtra(WeatherForecastConstants.NearCitiesKey, nearCitiesList)
+
         startActivity(intent)
 
     }

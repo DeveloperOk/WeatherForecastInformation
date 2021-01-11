@@ -32,7 +32,8 @@ class WeatherForecastConstants {
         val LocationTypeCity: String = "City"
 
         val NearCitiesKey: String = "NearCitiesKey"
-        val SelectedNearCityJsonKey: String = "SelectedNearCityJsonKey"
+        val SelectedNearCityKey: String = "SelectedNearCityKey"
+
 
         val CityDetailInputDateFormat: String = "yyyy-MM-dd"
         val CityDetailOutputDateFormat: String = "EEEE"

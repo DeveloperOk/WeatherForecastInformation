@@ -11,12 +11,12 @@ import com.enterprise.weatherforecastinformation.models.weatherforecast.NearCity
 import com.enterprise.weatherforecastinformation.R
 import com.enterprise.weatherforecastinformation.controllers.activities.weatherforecast.CityDetailActivity
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
-import com.google.gson.Gson
 
-class NearCityAdapter(val nearCitiesList: Array<NearCity>, val context: Context) :
+
+class NearCityAdapter(val nearCitiesList: ArrayList<NearCity>, val context: Context) :
     RecyclerView.Adapter<NearCityAdapter.NearCityViewHolder>() {
 
-    class NearCityViewHolder(itemView: View, nearCitiesList: Array<NearCity>, context: Context) : RecyclerView.ViewHolder(itemView) {
+    class NearCityViewHolder(itemView: View, nearCitiesList: ArrayList<NearCity>, context: Context) : RecyclerView.ViewHolder(itemView) {
 
         private val textViewDistanceValue: TextView = itemView.findViewById(R.id.textViewDistanceValue)
         private val textViewTitleValue: TextView = itemView.findViewById(R.id.textViewTitleValue)
@@ -38,12 +38,8 @@ class NearCityAdapter(val nearCitiesList: Array<NearCity>, val context: Context)
 
                 var selectedNearCity = nearCitiesList[adapterPosition]
 
-                var gson = Gson()
-                var selectedNearCityJson = gson.toJson(selectedNearCity)
-
-                val intent = Intent(context, CityDetailActivity::class.java).apply {
-                    putExtra(WeatherForecastConstants.SelectedNearCityJsonKey, selectedNearCityJson)
-                }
+                val intent = Intent(context, CityDetailActivity::class.java)
+                intent.putExtra(WeatherForecastConstants.SelectedNearCityKey, selectedNearCity)
 
                 context.startActivity(intent)
 

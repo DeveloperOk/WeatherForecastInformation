@@ -9,10 +9,11 @@ import com.enterprise.weatherforecastinformation.R
 import com.enterprise.weatherforecastinformation.adapters.weatherforecast.CityDetailAdapter
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.AppDateManager
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.MetaweatherManager
+import com.enterprise.weatherforecastinformation.models.weatherforecast.MetaweatherLocation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.MetaweatherWeatherForecastInformation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearCity
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
-import com.google.gson.Gson
+
 
 class CityDetailActivity : AppCompatActivity() {
 
@@ -26,17 +27,32 @@ class CityDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_detail)
 
-        var selectedNearCityJson =
-            intent.getStringExtra(WeatherForecastConstants.SelectedNearCityJsonKey)
-
-        var gson = Gson()
-        var selectedNearCity = gson.fromJson(selectedNearCityJson, NearCity::class.java)
+        var selectedNearCity = getSelectedNearCity()
 
         setTitle(selectedNearCity.title)
 
         getWeatherDataAndUpdateView(selectedNearCity)
 
     }
+
+
+    private fun getSelectedNearCity() : NearCity{
+
+        var selectedNearCityAsMetaweatherLocation =
+            intent.getParcelableExtra(WeatherForecastConstants.SelectedNearCityKey) as MetaweatherLocation
+
+        var selectedNearCity = NearCity()
+
+        selectedNearCity.distance = selectedNearCityAsMetaweatherLocation.distance
+        selectedNearCity.title = selectedNearCityAsMetaweatherLocation.title
+        selectedNearCity.location_type = selectedNearCityAsMetaweatherLocation.location_type
+        selectedNearCity.woeid = selectedNearCityAsMetaweatherLocation.woeid
+        selectedNearCity.latt_long = selectedNearCityAsMetaweatherLocation.latt_long
+
+        return selectedNearCity
+
+    }
+
 
     private fun getWeatherDataAndUpdateView(nearCity: NearCity) {
 
