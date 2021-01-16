@@ -121,6 +121,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAndRegisterListenerForGPS(doOnResponse: (location: Location) -> (Unit)) {
 
+        appLocationManager?.removeListenerForGPS()
+
         // Define a listener that responds to location updates
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
