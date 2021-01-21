@@ -1,23 +1,29 @@
 package com.enterprise.weatherforecastinformation.adapters.weatherforecast
 
-import android.content.Context
-import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.enterprise.weatherforecastinformation.R
-import com.enterprise.weatherforecastinformation.controllers.activities.weatherforecast.CityDetailActivity
-import com.enterprise.weatherforecastinformation.models.weatherforecast.NearCity
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearLocation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
-import com.google.gson.Gson
+import kotlin.concurrent.thread
 
-class NearLocationAdapter(val nearLocationsList: Array<NearLocation>) :
+
+class NearLocationAdapter(
+    val nearLocationsList: Array<NearLocation>,
+    val buttonNearCities: Button?, val buttonNearLocations: Button?
+) :
     RecyclerView.Adapter<NearLocationAdapter.NearLocationViewHolder>() {
 
-    class NearLocationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NearLocationViewHolder(
+        itemView: View, val buttonNearCities: Button?,
+        val buttonNearLocations: Button?
+    ) : RecyclerView.ViewHolder(itemView) {
 
         private val textViewDistanceValue: TextView = itemView.findViewById(R.id.textViewDistanceValue)
         private val textViewTitleValue: TextView = itemView.findViewById(R.id.textViewTitleValue)
@@ -35,13 +41,44 @@ class NearLocationAdapter(val nearLocationsList: Array<NearLocation>) :
 
         }
 
+        init {
+
+            itemView.setOnClickListener {
+
+                setVisibilityOfButtons()
+
+            }
+
+        }
+
+        private fun setVisibilityOfButtons(){
+
+            buttonNearCities?.visibility = View.VISIBLE
+            buttonNearLocations?.visibility = View.VISIBLE
+
+            thread {
+
+                Thread.sleep(WeatherForecastConstants.VisibilityDurationOfButtons)
+
+                //To run on ui thread
+                Handler(Looper.getMainLooper()).post(Runnable {
+
+                    buttonNearCities?.visibility = View.GONE
+                    buttonNearLocations?.visibility = View.GONE
+
+                })
+
+            }
+
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearLocationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.near_location, parent, false)
 
-        return NearLocationViewHolder(view)
+        return NearLocationViewHolder(view, buttonNearCities, buttonNearLocations)
     }
 
     override fun getItemCount(): Int {

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="4dp"
@@ -52,6 +53,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="20dp"
                     android:text="@string/button_near_locations"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/buttonNearCities"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
@@ -66,6 +68,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="20dp"
                     android:text="@string/button_near_cities"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />

@@ -4,8 +4,10 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.enterprise.weatherforecastinformation.adapters.weatherforecast.NearLocationAdapter
 import com.enterprise.weatherforecastinformation.controllers.activities.weatherforecast.NearCitiesActivity
@@ -14,12 +16,16 @@ import com.enterprise.weatherforecastinformation.controllers.managers.weatherfor
 import com.enterprise.weatherforecastinformation.controllers.managers.weatherforecast.MetaweatherManager
 import com.enterprise.weatherforecastinformation.models.weatherforecast.NearLocation
 import com.enterprise.weatherforecastinformation.models.weatherforecast.WeatherForecastConstants
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
 
     private var buttonNearLocations: Button? = null
     private var buttonNearCities: Button? = null
+
+    private var mainConstraintLayout: ConstraintLayout? = null
+    private var recyclerViewNearLocations: RecyclerView? = null
 
     private var appLocationManager: AppLocationManager? = null
     private var locationListener: LocationListener? = null
@@ -30,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         buttonNearLocations = findViewById(R.id.buttonNearLocations)
         buttonNearCities = findViewById(R.id.buttonNearCities)
+
+        mainConstraintLayout = findViewById(R.id.mainConstraintLayout)
+        recyclerViewNearLocations = findViewById(R.id.recyclerViewNearLocations)
 
         appLocationManager = AppLocationManager(this, this)
 
@@ -74,13 +83,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addListeners() {
+
         addButtonListeners()
+        addViewListeners()
+
     }
 
     private fun addButtonListeners() {
 
         addButtonNearLocationsListener()
         addButtonNearCitiesListener()
+
+    }
+
+    private fun addViewListeners() {
+
+        addMainConstraintLayoutListener()
+
+    }
+
+    private fun addMainConstraintLayoutListener() {
+
+        mainConstraintLayout?.setOnClickListener {
+
+            setVisibilityOfButtons()
+
+        }
+
+    }
+
+    private fun setVisibilityOfButtons(){
+
+        buttonNearCities?.visibility = View.VISIBLE
+        buttonNearLocations?.visibility = View.VISIBLE
+
+        thread {
+
+            Thread.sleep(WeatherForecastConstants.VisibilityDurationOfButtons)
+
+            runOnUiThread {
+
+                buttonNearCities?.visibility = View.GONE
+                buttonNearLocations?.visibility = View.GONE
+
+            }
+        }
 
     }
 
@@ -155,7 +202,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAdapterOfRecyclerView(nearLocationsList: Array<NearLocation>): Unit {
 
         val recyclerViewNearLocations: RecyclerView = findViewById(R.id.recyclerViewNearLocations)
-        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList)
+        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList, buttonNearCities, buttonNearLocations)
 
     }
 
@@ -174,7 +221,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAdapterOfRecyclerViewOnButtonNearLocations(nearLocationsList: Array<NearLocation>): Unit {
 
         val recyclerViewNearLocations: RecyclerView = findViewById(R.id.recyclerViewNearLocations)
-        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList)
+        recyclerViewNearLocations.adapter = NearLocationAdapter(nearLocationsList, buttonNearCities, buttonNearLocations)
 
     }
 

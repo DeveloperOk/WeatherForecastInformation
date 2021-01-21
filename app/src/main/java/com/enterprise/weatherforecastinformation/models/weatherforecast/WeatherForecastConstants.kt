@@ -40,6 +40,8 @@ class WeatherForecastConstants {
 
         val NumberOfColumnsOfRecyclerViewCityDetail: Int = 2
 
+        val VisibilityDurationOfButtons: Long = 5000
+
     }
 
 }
